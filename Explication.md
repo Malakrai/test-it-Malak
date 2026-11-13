@@ -1,92 +1,107 @@
-# TD Test It – Bugs trouvés et corrections
+# TD Test It - Bugs trouvés et corrections
+
 Malak RAI
+---
 
-Mes tests ont trouvé 14 bugs dans le code. Je les ai tous corrigés.
+## Exercice 1 - BookServiceTest
 
-## BookServiceTest
+**Bug 1 - pas de mail quand on emprunte**
+Mon test vérifiait qu'un mail était envoyé au membre, mais Mockito disait que `sendMail` n'était jamais appelé.
+J'ai ajouté `mailService.sendMail(...)` à la fin de `borrowBook`, parce que le README dit qu'un emprunt envoie un mail.
 
-**Bug 1 : aucun mail à l'emprunt**
-- Correction : ajout de `mailService.sendMail(...)` dans `borrowBook`.
-- Pourquoi : le README dit qu'un emprunt doit envoyer un mail au membre.
+---
 
-## BookRepositoryIT
+## Exercice 2 - BookRepositoryIT
 
-**Bug 2 : les clés étrangères n'ont pas de nom**
-- Correction : ajout de `constraintName` dans les deux fichiers Liquibase.
-- Pourquoi : Liquibase refuse de créer la base sans ce nom.
+Ici le test ne démarrait même pas : la base créée par Liquibase ne correspondait pas aux classes Java. J'ai dû corriger plusieurs choses avant que le test se lance.
 
-**Bug 3 : la colonne s'appelle `user`**
-- Correction : renommée en `username`.
-- Pourquoi : le champ Java s'appelle `username`.
+**Bug 2 - clés étrangères sans nom**
+Liquibase refusait de créer la base.
+J'ai ajouté `constraintName` dans les deux fichiers XML.
 
-**Bug 4 : `referent_id` est en `uuid`**
-- Correction : changé en `bigint`.
-- Pourquoi : l'id d'un membre est un `bigint`.
+**Bug 3 - colonne `user` au lieu de `username`**
+Dans la classe Member le champ s'appelle `username`, donc la colonne doit avoir le même nom.
+J'ai renommé la colonne.
 
-**Bug 5 : Java ne trouve pas la table**
-- Correction : ajout de `@Table(name = "members")` dans `Member.java`.
-- Pourquoi : la table s'appelle `members`, mais Java cherche `member` par défaut.
+**Bug 4 - `referent_id` en `uuid`**
+L'id d'un membre est un `bigint`, donc la colonne qui pointe vers un membre doit aussi être en `bigint`.
+J'ai changé le type.
 
-**Bug 6 : mauvaise génération de l'id**
-- Correction : `SEQUENCE` remplacé par `IDENTITY` dans `Book.java`.
-- Pourquoi : la table utilise l'auto-incrément, pas une séquence.
+**Bug 5 - table introuvable**
+La table s'appelle `members` mais Java cherchait `member`.
+J'ai ajouté `@Table(name = "members")` dans `Member.java`.
 
-**Bug 7 : `OR` au lieu de `AND` dans la requête**
-- Correction : `OR` remplacé par `AND` dans `BookRepository.java`.
-- Pourquoi : on veut les livres de ce membre ET avec ce statut. Avec `OR`, la requête renvoyait aussi les livres des autres.
+**Bug 6 - mauvaise génération de l'id**
+`Book` utilisait `SEQUENCE` alors que la table est en auto-incrément.
+J'ai mis `IDENTITY`.
 
-## BookServiceIT
+**Bug 7 - OR au lieu de AND dans la requête**
+Une fois la base réparée, le test a enfin tourné et il trouvait 3 livres au lieu de 1. Avec `OR`, la requête renvoyait aussi les livres de Nour et les livres déjà rendus.
+J'ai remplacé `OR` par `AND`, parce qu'on veut les livres de ce membre ET avec ce statut.
 
-**Bug 8 : `LazyInitializationException`**
-- Correction : ajout de `@Transactional` sur `BookService`.
-- Pourquoi : sans transaction, la connexion à la base est fermée avant de lire le membre.
+---
 
-## BookControllerIT
+## Exercice 3 - BookServiceIT
 
-**Bug 9 : l'auteur est remplacé par le titre**
-- Correction : `request.title` remplacé par `request.author` dans `createBook`.
-- Pourquoi : le titre était passé deux fois.
+**Bug 8 - LazyInitializationException**
+Le membre n'est chargé depuis la base qu'au moment où on s'en sert (`LAZY`), et comme il n'y avait pas de transaction, la connexion était déjà fermée.
+J'ai ajouté `@Transactional` sur `BookService`.
 
-**Bug 10 : l'emprunt répond 400**
-- Correction : `returnBook` remplacé par `borrowBook` dans la méthode `/borrow`.
-- Pourquoi : l'URL d'emprunt appelait la méthode qui rend le livre.
+---
 
-**Bug 11 : l'emprunt répond 500**
-- Correction : ajout de `@JsonIgnore` sur `books` et `referent` dans `Member.java`.
-- Pourquoi : Spring n'arrivait pas à mettre ces champs dans le JSON, parce qu'ils ne sont pas chargés depuis la base (`LAZY`).
+## Exercice 4 - BookControllerIT
 
-## Bonus BookServiceTest
+**Bug 9 - l'auteur était remplacé par le titre**
+Le JSON renvoyait « Les Misérables » comme auteur. Dans `createBook`, le titre était passé deux fois.
+J'ai mis `request.author` en deuxième paramètre.
 
-J'ai ajouté 8 tests : livre inconnu, membre inconnu, livre déjà emprunté, membre qui a déjà un livre en cours, retour par un autre membre, retour sans référent, retour avec référent, et un test avec un fake à la place du mock pour les mails.
+**Bug 10 - l'emprunt répondait 400**
+La méthode `/borrow` appelait `returnBook` au lieu de `borrowBook`. Je pense que c'est un copier-coller de la méthode `/return`.
+J'ai remplacé par `borrowBook`.
 
-**Bug 12 : un membre peut emprunter plusieurs livres**
-- Correction : `Status.RENDU` remplacé par `Status.EMPRUNTE` dans `borrowBook`.
-- Pourquoi : pour savoir si le membre a déjà un livre en cours, il faut chercher ses livres EMPRUNTE, pas ses livres RENDU.
+**Bug 11 - l'emprunt répondait 500**
+Spring essayait de mettre dans le JSON la liste des livres du membre et son référent, alors qu'ils n'étaient pas chargés depuis la base.
+J'ai ajouté `@JsonIgnore` sur `books` et `referent` dans `Member.java`.
 
-**Bug 13 : n'importe qui peut rendre un livre**
-- Correction : ajout d'une vérification dans `returnBook` : si ce n'est pas l'emprunteur, on lève une `IllegalStateException`.
-- Pourquoi : le README dit que seul le membre qui a emprunté le livre peut le rendre.
+---
 
-**Bug 14 : le référent n'est jamais prévenu**
-- Correction : `member` remplacé par `member.getReferent()` dans le 2ᵉ `sendMail` de `returnBook`.
-- Pourquoi : le 2ᵉ mail partait au membre (il en recevait 2) au lieu de partir au référent.
+## Bonus
 
-## BookControllerIT
+### Tests en plus dans BookServiceTest
 
-J'ai ajouté 5 tests : modifier un livre emprunté, supprimer un livre qui n'existe pas, emprunter sans être connecté, et créer un livre avec un titre vide ou un auteur vide. Les 2 tests de validation passaient directement, parce que `@NotBlank` fonctionnait déjà.
+J'ai testé : livre inconnu, membre inconnu, livre déjà emprunté, membre qui a déjà un livre, retour par un autre membre, retour avec et sans référent. J'ai aussi fait un test avec un fake à la place du mock pour les mails (une petite classe qui garde les destinataires dans une liste).
 
-**Bug 15 : modifier un livre emprunté le remet à DISPONIBLE**
-- Correction : `updateBook` charge le livre existant et ne change que le titre et l'auteur.
-- Pourquoi : avant, le `PUT` remplaçait tout le livre par ce qui était envoyé, donc le statut et l'emprunteur étaient perdus.
+**Bug 12 - on pouvait emprunter plusieurs livres**
+Pour vérifier si le membre avait déjà un livre, le code cherchait ses livres RENDU au lieu de ses livres EMPRUNTE.
+J'ai remplacé `Status.RENDU` par `Status.EMPRUNTE`.
 
-**Bug 16 : erreur 500 sur le `PUT`**
-- Correction : `FetchType.LAZY` remplacé par `FetchType.EAGER` sur `borrower` dans `Book.java`.
-- Pourquoi : l'emprunteur n'était pas chargé depuis la base, donc Spring ne pouvait pas le mettre dans le JSON.
+**Bug 13 - n'importe qui pouvait rendre un livre**
+Le code ne vérifiait pas qui rendait le livre.
+J'ai ajouté une vérification : si ce n'est pas l'emprunteur, ça lève une `IllegalStateException`.
 
-**Bug 17 : supprimer un livre qui n'existe pas répond 204**
-- Correction : `deleteBook` du contrôleur répond 404 si le livre n'existe pas.
-- Pourquoi : 204 veut dire « supprimé », ce qui est faux quand le livre n'existait pas.
+**Bug 14 - le référent n'était jamais prévenu**
+Le membre recevait 2 mails et le référent aucun, parce que le 2e mail partait au membre.
+J'ai remplacé `member` par `member.getReferent()`.
 
-**Bug 18 : emprunter sans être connecté fait planter le serveur**
-- Correction : `borrowBook` et `returnBook` du contrôleur répondent 401 si personne n'est connecté.
-- Pourquoi : l'exception n'était pas attrapée, donc le serveur plantait au lieu de répondre « non authentifié ».
+### Tests en plus dans BookControllerIT
+
+J'ai testé de modifier un livre emprunté, supprimer un livre qui n'existe pas, emprunter sans être connecté, et créer un livre avec un titre ou un auteur vide. Les tests avec un titre ou un auteur vide passaient déjà grâce à `@NotBlank`.
+
+**Bug 15 - le PUT remettait le livre à DISPONIBLE**
+Le PUT remplaçait tout le livre, donc on perdait le statut et l'emprunteur.
+Maintenant `updateBook` récupère le livre et change seulement le titre et l'auteur.
+
+**Bug 16 - erreur 500 sur le PUT**
+Même problème que le bug 11, mais avec l'emprunteur du livre.
+J'ai mis `FetchType.EAGER` sur `borrower` dans `Book.java`.
+
+**Bug 17 - supprimer un livre qui n'existe pas répondait 204**
+204 veut dire « supprimé », ce qui est faux si le livre n'existe pas.
+Le contrôleur répond maintenant 404.
+
+**Bug 18 - emprunter sans être connecté faisait planter le serveur**
+L'exception n'était pas attrapée.
+`borrowBook` et `returnBook` répondent maintenant 401.
+
+---
+

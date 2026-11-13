@@ -1,4 +1,4 @@
-# Voir fichier Explication 
+# Voir fichier Explication pour les explications 
 # Test It - Prêt de livres
 
 API REST Spring Boot (Java 25) de prêt de livres pour une bibliothèque.
