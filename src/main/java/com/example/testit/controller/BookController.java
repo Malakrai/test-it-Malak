@@ -38,10 +38,10 @@ public class BookController {
     public List<Book> getBooksByMember(@PathVariable Long memberId) {
         return bookService.findByMemberId(memberId);
     }
-
+// author au lieu de title pour le 2 eme paramètre
     @PostMapping
     public Book createBook(@Valid @RequestBody BookRequest request) {
-        return bookService.createBook(request.title, request.title);
+        return bookService.createBook(request.title, request.author);
     }
 
     @PutMapping("/{id}")
@@ -59,13 +59,13 @@ public class BookController {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
-
+// borrow appelait returnBook (rendre) au lieu de borrowBook (emprunter), donc l'emprunt était refusé
     @PostMapping("/{id}/borrow")
     public ResponseEntity<Book> borrowBook(@PathVariable Long id) {
         Long memberId = currentMemberService.getCurrentMemberId()
                 .orElseThrow(() -> new IllegalStateException("Member not authenticated"));
         try {
-            return ResponseEntity.ok(bookService.returnBook(id, memberId));
+            return ResponseEntity.ok(bookService.borrowBook(id, memberId));
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(null);
         }

@@ -59,7 +59,7 @@ Base H2 en mémoire, console sur http://localhost:8080/h2-console
 | 4 | `BookControllerIT` | MockMvc | Créer un livre puis l'emprunter, et vérifier les réponses |
 
 Un test qui échoue n'est pas un problème : c'est **ce que vous cherchez**. Notez ce qu'il révèle (le code ou le test ?) puis corrigez.
-
+ 
 ## Bonus (si vous avez fini)
 
 Dans l'ordre que vous voulez, un test par idée :

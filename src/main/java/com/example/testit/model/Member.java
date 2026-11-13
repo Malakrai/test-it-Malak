@@ -4,18 +4,23 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
+@Table(name = "members")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
-
+// on ajoute @JsonIgnore parcequ'il évite l'erreur 500 en ne mettant pas la liste des livres dans le JSON
+    @JsonIgnore
     @OneToMany(mappedBy = "borrower")
     private List<Book> books;
 
     /** Bibliothécaire référent du membre, prévenu quand il rend un livre. */
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "referent_id")
     private Member referent;

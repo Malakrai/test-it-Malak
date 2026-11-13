@@ -8,10 +8,14 @@ import com.example.testit.repository.BookRepository;
 import com.example.testit.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
+// on ajoute @Transactional : garde la session ouverte pendant toute la méthode (sinon LazyInitializationException)
 @Service
+@Transactional
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -67,6 +71,8 @@ public class BookService {
         book.setStatus(Status.EMPRUNTE);
         book.setBorrower(member);
         Book saved = bookRepository.save(book);
+// on ajoute cette ligne pour corroger le proble de non envoie d'email lors de l'emprinte d'un livre
+        mailService.sendMail(member, "Emprenté un Livre", "Vous avez emprunté '" + book.getTitle() + "'.");
         return saved;
     }
 
@@ -87,4 +93,6 @@ public class BookService {
         }
         return saved;
     }
+
+
 }

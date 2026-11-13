@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.testit.BookControllerIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-13T15:43:12.526Z" hostname="LAPTOP-T4919FCI" time="27.514">
+  <properties/>
+  <testcase name="creerUnLivrePuisLEmprunter()" classname="com.example.testit.BookControllerIT" time="2.945"/>
+  <system-out><![CDATA[16:43:13.296 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.testit.BookControllerIT]: BookControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:43:13.808 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.testit.TestItApplication for test class com.example.testit.BookControllerIT
+16:43:14.208 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.testit.BookControllerIT]: BookControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:43:14.219 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.testit.TestItApplication for test class com.example.testit.BookControllerIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-13T16:43:19.809+01:00  INFO 37116 --- [    Test worker] com.example.testit.BookControllerIT      : Starting BookControllerIT using Java 25.0.5 with PID 37116 (started by malak in C:\Users\malak\test-it-Malak)
+2026-11-13T16:43:19.812+01:00  INFO 37116 --- [    Test worker] com.example.testit.BookControllerIT      : No active profile set, falling back to 1 default profile: "default"
+2026-11-13T16:43:22.005+01:00  INFO 37116 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-13T16:43:22.124+01:00  INFO 37116 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 93 ms. Found 2 JPA repository interfaces.
+2026-11-13T16:43:22.893+01:00  INFO 37116 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-13T16:43:23.509+01:00  INFO 37116 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-11-13T16:43:23.513+01:00  INFO 37116 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-13T16:43:23.781+01:00  INFO 37116 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
+2026-11-13T16:43:27.166+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Creating database changelog table with name: PUBLIC.DATABASECHANGELOG
+2026-11-13T16:43:27.600+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2026-11-13T16:43:27.768+01:00  INFO 37116 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-11-13T16:43:28.096+01:00  INFO 37116 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
+2026-11-13T16:43:28.096+01:00  INFO 37116 --- [    Test worker] liquibase.command                        : Using deploymentId: 4584602842
+2026-11-13T16:43:28.105+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2026-11-13T16:43:28.174+01:00  INFO 37116 --- [    Test worker] liquibase.ui                             : Running Changeset: db/changelog/001-create-members-table.xml::001::testit
+2026-11-13T16:43:28.208+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Table members created
+2026-11-13T16:43:28.229+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to members (referent_id)
+2026-11-13T16:43:28.233+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-create-members-table.xml::001::testit ran successfully in 51ms
+2026-11-13T16:43:28.258+01:00  INFO 37116 --- [    Test worker] liquibase.ui                             : Running Changeset: db/changelog/002-create-book-table.xml::002::testit
+2026-11-13T16:43:28.264+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Table book created
+2026-11-13T16:43:28.271+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to book (borrower_id)
+2026-11-13T16:43:28.271+01:00  INFO 37116 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-create-book-table.xml::002::testit ran successfully in 13ms
+2026-11-13T16:43:28.296+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2026-11-13T16:43:28.296+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : Run:                          2
+2026-11-13T16:43:28.298+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : Previously run:               0
+2026-11-13T16:43:28.298+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2026-11-13T16:43:28.298+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : -------------------------------
+2026-11-13T16:43:28.298+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : Total change sets:            2
+2026-11-13T16:43:28.301+01:00  INFO 37116 --- [    Test worker] liquibase.util                           : Update summary generated
+2026-11-13T16:43:28.319+01:00  INFO 37116 --- [    Test worker] liquibase.command                        : Update command completed successfully.
+2026-11-13T16:43:28.319+01:00  INFO 37116 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
+2026-11-13T16:43:28.323+01:00  INFO 37116 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
+2026-11-13T16:43:28.325+01:00  INFO 37116 --- [    Test worker] liquibase.command                        : Command execution complete
+2026-11-13T16:43:28.734+01:00  INFO 37116 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-13T16:43:29.006+01:00  INFO 37116 --- [    Test worker] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-11-13T16:43:31.030+01:00  INFO 37116 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-13T16:43:31.145+01:00  WARN 37116 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-13T16:43:31.169+01:00  INFO 37116 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:testdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: TESTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-13T16:43:33.914+01:00  INFO 37116 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-13T16:43:33.978+01:00  INFO 37116 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-13T16:43:34.151+01:00  INFO 37116 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-13T16:43:36.985+01:00  INFO 37116 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-11-13T16:43:36.985+01:00  INFO 37116 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-11-13T16:43:36.989+01:00  INFO 37116 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-11-13T16:43:37.061+01:00  INFO 37116 --- [    Test worker] com.example.testit.BookControllerIT      : Started BookControllerIT in 22.551 seconds (process running for 27.345)
+2026-11-13T16:43:39.939+01:00  INFO 37116 --- [    Test worker] c.e.testit.adapter.mail.MailServiceFake  : Fake Mail to Malak-controller: Emprenté un Livre - Vous avez emprunté 'Les Misérables'.
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\malak\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.18.15\de6980bb799c25bb1fe9e6c434201299cb5e694e\byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
