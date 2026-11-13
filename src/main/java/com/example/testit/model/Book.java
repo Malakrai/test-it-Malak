@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "book")
 public class Book {
     @Id
+    // IDENTITY au lieu de SEQUENCE : la table utilise l'auto-incrément
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -16,7 +17,8 @@ public class Book {
     private Status status = Status.DISPONIBLE;
 
     /** Dernier membre ayant emprunté le livre (null tant qu'il n'a jamais été emprunté). */
-    @ManyToOne(fetch = FetchType.LAZY)
+    // EAGER : l'emprunteur est chargé tout de suite, sinon erreur 500 en JSON
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "borrower_id")
     private Member borrower;
 

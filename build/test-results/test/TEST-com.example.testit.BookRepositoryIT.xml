@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.testit.BookRepositoryIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-13T15:59:14.633Z" hostname="LAPTOP-T4919FCI" time="0.909">
+<testsuite name="com.example.testit.BookRepositoryIT" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-13T16:12:59.780Z" hostname="LAPTOP-T4919FCI" time="1.451">
   <properties/>
-  <testcase name="findByMemberAndStatusNeRenvoieQueLesLivresDuMembreAvecCeStatut()" classname="com.example.testit.BookRepositoryIT" time="0.065"/>
-  <system-out><![CDATA[2026-11-13T16:59:14.639+01:00  INFO 15824 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.testit.BookRepositoryIT]: BookRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-11-13T16:59:14.678+01:00  INFO 15824 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.testit.TestItApplication for test class com.example.testit.BookRepositoryIT
-2026-11-13T16:59:14.680+01:00  INFO 15824 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.testit.BookRepositoryIT]: BookRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-11-13T16:59:14.710+01:00  INFO 15824 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.testit.TestItApplication for test class com.example.testit.BookRepositoryIT
+  <testcase name="findByMemberAndStatusNeRenvoieQueLesLivresDuMembreAvecCeStatut()" classname="com.example.testit.BookRepositoryIT" time="0.07"/>
+  <system-out><![CDATA[2026-11-13T17:12:59.792+01:00  INFO 35396 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.testit.BookRepositoryIT]: BookRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-13T17:12:59.882+01:00  INFO 35396 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.testit.TestItApplication for test class com.example.testit.BookRepositoryIT
+2026-11-13T17:12:59.887+01:00  INFO 35396 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.testit.BookRepositoryIT]: BookRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-13T17:12:59.947+01:00  INFO 35396 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.testit.TestItApplication for test class com.example.testit.BookRepositoryIT
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -16,56 +16,56 @@
 
  :: Spring Boot ::                (v4.1.2)
 
-2026-11-13T16:59:14.763+01:00  INFO 15824 --- [    Test worker] com.example.testit.BookRepositoryIT      : Starting BookRepositoryIT using Java 25.0.5 with PID 15824 (started by malak in C:\Users\malak\test-it-Malak)
-2026-11-13T16:59:14.763+01:00  INFO 15824 --- [    Test worker] com.example.testit.BookRepositoryIT      : No active profile set, falling back to 1 default profile: "default"
-2026-11-13T16:59:14.922+01:00  INFO 15824 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-11-13T16:59:14.957+01:00  INFO 15824 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30 ms. Found 2 JPA repository interfaces.
-2026-11-13T16:59:14.985+01:00  INFO 15824 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
-2026-11-13T16:59:15.028+01:00  INFO 15824 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:ff75c5cc-1d96-4470-aacf-894de9d69ac2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
-2026-11-13T16:59:15.041+01:00  INFO 15824 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
-2026-11-13T16:59:15.101+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Creating database changelog table with name: PUBLIC.DATABASECHANGELOG
-2026-11-13T16:59:15.106+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2026-11-13T16:59:15.137+01:00  INFO 15824 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
-2026-11-13T16:59:15.162+01:00  INFO 15824 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
-2026-11-13T16:59:15.162+01:00  INFO 15824 --- [    Test worker] liquibase.command                        : Using deploymentId: 4585542487
-2026-11-13T16:59:15.164+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
-2026-11-13T16:59:15.177+01:00  INFO 15824 --- [    Test worker] liquibase.ui                             : Running Changeset: db/changelog/001-create-members-table.xml::001::testit
-2026-11-13T16:59:15.183+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Table members created
-2026-11-13T16:59:15.187+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to members (referent_id)
-2026-11-13T16:59:15.188+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-create-members-table.xml::001::testit ran successfully in 11ms
-2026-11-13T16:59:15.195+01:00  INFO 15824 --- [    Test worker] liquibase.ui                             : Running Changeset: db/changelog/002-create-book-table.xml::002::testit
-2026-11-13T16:59:15.198+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Table book created
-2026-11-13T16:59:15.202+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to book (borrower_id)
-2026-11-13T16:59:15.202+01:00  INFO 15824 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-create-book-table.xml::002::testit ran successfully in 7ms
-2026-11-13T16:59:15.206+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
-2026-11-13T16:59:15.206+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : Run:                          2
-2026-11-13T16:59:15.206+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : Previously run:               0
-2026-11-13T16:59:15.206+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : Filtered out:                 0
-2026-11-13T16:59:15.207+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : -------------------------------
-2026-11-13T16:59:15.207+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : Total change sets:            2
-2026-11-13T16:59:15.207+01:00  INFO 15824 --- [    Test worker] liquibase.util                           : Update summary generated
-2026-11-13T16:59:15.208+01:00  INFO 15824 --- [    Test worker] liquibase.command                        : Update command completed successfully.
-2026-11-13T16:59:15.208+01:00  INFO 15824 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
-2026-11-13T16:59:15.210+01:00  INFO 15824 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
-2026-11-13T16:59:15.211+01:00  INFO 15824 --- [    Test worker] liquibase.command                        : Command execution complete
-2026-11-13T16:59:15.242+01:00  INFO 15824 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-11-13T16:59:15.299+01:00  INFO 15824 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-11-13T16:59:15.303+01:00  WARN 15824 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-11-13T16:59:15.304+01:00  INFO 15824 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [jdbc:h2:mem:ff75c5cc-1d96-4470-aacf-894de9d69ac2]
+2026-11-13T17:13:00.025+01:00  INFO 35396 --- [    Test worker] com.example.testit.BookRepositoryIT      : Starting BookRepositoryIT using Java 25.0.5 with PID 35396 (started by malak in C:\Users\malak\test-it-Malak)
+2026-11-13T17:13:00.028+01:00  INFO 35396 --- [    Test worker] com.example.testit.BookRepositoryIT      : No active profile set, falling back to 1 default profile: "default"
+2026-11-13T17:13:00.236+01:00  INFO 35396 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-13T17:13:00.265+01:00  INFO 35396 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 2 JPA repository interfaces.
+2026-11-13T17:13:00.298+01:00  INFO 35396 --- [    Test worker] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-13T17:13:00.336+01:00  INFO 35396 --- [    Test worker] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:5343084e-e909-4a24-9541-569d4acdd7bd;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-13T17:13:00.347+01:00  INFO 35396 --- [    Test worker] liquibase.database                       : Set default schema name to PUBLIC
+2026-11-13T17:13:00.459+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Creating database changelog table with name: PUBLIC.DATABASECHANGELOG
+2026-11-13T17:13:00.466+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2026-11-13T17:13:00.510+01:00  INFO 35396 --- [    Test worker] liquibase.snapshot                       : Creating snapshot
+2026-11-13T17:13:00.561+01:00  INFO 35396 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
+2026-11-13T17:13:00.562+01:00  INFO 35396 --- [    Test worker] liquibase.command                        : Using deploymentId: 4586352815
+2026-11-13T17:13:00.563+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Reading from PUBLIC.DATABASECHANGELOG
+2026-11-13T17:13:00.580+01:00  INFO 35396 --- [    Test worker] liquibase.ui                             : Running Changeset: db/changelog/001-create-members-table.xml::001::testit
+2026-11-13T17:13:00.589+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Table members created
+2026-11-13T17:13:00.593+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to members (referent_id)
+2026-11-13T17:13:00.594+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-create-members-table.xml::001::testit ran successfully in 13ms
+2026-11-13T17:13:00.605+01:00  INFO 35396 --- [    Test worker] liquibase.ui                             : Running Changeset: db/changelog/002-create-book-table.xml::002::testit
+2026-11-13T17:13:00.610+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Table book created
+2026-11-13T17:13:00.614+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : Foreign key constraint added to book (borrower_id)
+2026-11-13T17:13:00.615+01:00  INFO 35396 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-create-book-table.xml::002::testit ran successfully in 10ms
+2026-11-13T17:13:00.622+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2026-11-13T17:13:00.623+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : Run:                          2
+2026-11-13T17:13:00.623+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : Previously run:               0
+2026-11-13T17:13:00.623+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2026-11-13T17:13:00.623+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : -------------------------------
+2026-11-13T17:13:00.623+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : Total change sets:            2
+2026-11-13T17:13:00.623+01:00  INFO 35396 --- [    Test worker] liquibase.util                           : Update summary generated
+2026-11-13T17:13:00.626+01:00  INFO 35396 --- [    Test worker] liquibase.command                        : Update command completed successfully.
+2026-11-13T17:13:00.626+01:00  INFO 35396 --- [    Test worker] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
+2026-11-13T17:13:00.631+01:00  INFO 35396 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
+2026-11-13T17:13:00.632+01:00  INFO 35396 --- [    Test worker] liquibase.command                        : Command execution complete
+2026-11-13T17:13:00.680+01:00  INFO 35396 --- [    Test worker] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-13T17:13:00.754+01:00  INFO 35396 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-13T17:13:00.760+01:00  WARN 35396 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-13T17:13:00.762+01:00  INFO 35396 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:5343084e-e909-4a24-9541-569d4acdd7bd]
 	Database driver: H2 JDBC Driver
 	Database dialect: H2Dialect
 	Database version: 2.4.240
-	Default catalog/schema: FF75C5CC-1D96-4470-AACF-894DE9D69AC2/PUBLIC
+	Default catalog/schema: 5343084E-E909-4A24-9541-569D4ACDD7BD/PUBLIC
 	Autocommit mode: undefined/unknown
 	Isolation level: READ_COMMITTED [default READ_COMMITTED]
 	JDBC fetch size: 100
 	Pool: DataSourceConnectionProvider
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-11-13T16:59:15.381+01:00  INFO 15824 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-11-13T16:59:15.389+01:00  INFO 15824 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-11-13T16:59:15.470+01:00  INFO 15824 --- [    Test worker] com.example.testit.BookRepositoryIT      : Started BookRepositoryIT in 0.753 seconds (process running for 23.2)
+2026-11-13T17:13:00.941+01:00  INFO 35396 --- [    Test worker] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-13T17:13:00.956+01:00  INFO 35396 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-13T17:13:01.151+01:00  INFO 35396 --- [    Test worker] com.example.testit.BookRepositoryIT      : Started BookRepositoryIT in 1.189 seconds (process running for 53.104)
 Hibernate: insert into members (referent_id,username,id) values (?,?,default)
 Hibernate: insert into members (referent_id,username,id) values (?,?,default)
 Hibernate: insert into book (author,borrower_id,status,title,id) values (?,?,?,?,default)

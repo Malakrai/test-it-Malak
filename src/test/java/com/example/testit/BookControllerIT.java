@@ -1,57 +1,55 @@
 package com.example.testit;
 
-import com.example.testit.adapter.member.CurrentMemberServiceFake;
+import com.example.testit.model.Book;
 import com.example.testit.model.Member;
+import com.example.testit.model.Status;
+import com.example.testit.repository.BookRepository;
 import com.example.testit.repository.MemberRepository;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class BookControllerIT {
+@DataJpaTest
+class BookRepositoryIT {
 
     @Autowired
-    MockMvc mockMvc;
+    BookRepository bookRepository;
 
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired
-    CurrentMemberServiceFake currentMember;
-
     @Test
-    void creerUnLivrePuisLEmprunter() throws Exception {
+    void findByMemberAndStatusNeRenvoieQueLesLivresDuMembreAvecCeStatut() {
         //given 
-        Member malak = memberRepository.save(new Member("Malak-controller"));
-        currentMember.setCurrent(malak.getId());
+        Member malak = memberRepository.save(new Member("Malak"));
+        Member nour = memberRepository.save(new Member("Nour"));
+
+       
+        Book book1 = new Book("Les Misérables", "Victor Hugo");
+        book1.setBorrower(malak);
+        book1.setStatus(Status.EMPRUNTE);
+        bookRepository.save(book1);
+
+        Book book2 = new Book("Le Petit Prince", "Saint-Exupéry");
+        book2.setBorrower(malak);
+        book2.setStatus(Status.RENDU);
+        bookRepository.save(book2);
+
+        
+        Book book3 = new Book("L'Étranger", "Camus");
+        book3.setBorrower(nour);
+        book3.setStatus(Status.EMPRUNTE);
+        bookRepository.save(book3);
 
         //when 
-        String reponse = mockMvc.perform(post("/books")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\": \"Les Misérables\", \"author\": \"Victor Hugo\"}"))
-            
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Les Misérables"))
-                .andExpect(jsonPath("$.author").value("Victor Hugo"))
-                .andExpect(jsonPath("$.status").value("DISPONIBLE"))
-                .andReturn().getResponse().getContentAsString();
+        List<Book> resultat = bookRepository.findByMemberAndStatus(malak.getId(), Status.EMPRUNTE);
 
-    
-        Integer id = JsonPath.read(reponse, "$.id");
-
-        //then
-        mockMvc.perform(post("/books/" + id + "/borrow"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("EMPRUNTE"));
+        //then 
+        assertEquals(1, resultat.size());
+        assertEquals("Les Misérables", resultat.get(0).getTitle());
     }
 }

@@ -1,53 +1,135 @@
 package com.example.testit;
 
+import com.example.testit.adapter.member.CurrentMemberServiceFake;
 import com.example.testit.model.Book;
 import com.example.testit.model.Member;
 import com.example.testit.model.Status;
 import com.example.testit.repository.BookRepository;
 import com.example.testit.repository.MemberRepository;
+import com.example.testit.service.BookService;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-
-import java.util.List;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DataJpaTest
-class BookRepositoryIT {
+@SpringBootTest
+@AutoConfigureMockMvc
+class BookControllerIT {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Autowired
     BookRepository bookRepository;
 
     @Autowired
-    MemberRepository memberRepository;
+    BookService bookService;
+
+    @Autowired
+    CurrentMemberServiceFake currentMember;
 
     @Test
-    void findByMemberAndStatusNeRenvoieQueLesLivresDuMembreAvecCeStatut() {
+    void creerUnLivrePuisLEmprunter() throws Exception {
         //given 
-        Member malak = memberRepository.save(new Member("Malak"));
-        Member Nour = memberRepository.save(new Member("Nour"));
-
-        Book book1 = new Book("Les Misérables", "Victor Hugo");
-        book1.setBorrower(malak);
-        book1.setStatus(Status.EMPRUNTE);
-        bookRepository.save(book1);
-
-        Book book2 = new Book("Le Petit Prince", "Saint-Exupéry");
-        book2.setBorrower(malak);
-        book2.setStatus(Status.RENDU);
-        bookRepository.save(book2);
-
-        Book book3 = new Book("L'Étranger", "Camus");
-        book3.setBorrower(Nour);
-        book3.setStatus(Status.EMPRUNTE);
-        bookRepository.save(book3);
+        Member malak = memberRepository.save(new Member("Malak-controller"));
+        currentMember.setCurrent(malak.getId());
 
         //when 
-        List<Book> resultat = bookRepository.findByMemberAndStatus(malak.getId(), Status.EMPRUNTE);
+        ResultActions creation = mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\": \"Les Misérables\", \"author\": \"Victor Hugo\"}"));
 
         //then 
-        assertEquals(1, resultat.size());
-        assertEquals("Les Misérables", resultat.get(0).getTitle());
+        creation.andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Les Misérables"))
+                .andExpect(jsonPath("$.author").value("Victor Hugo"))
+                .andExpect(jsonPath("$.status").value("DISPONIBLE"));
+
+        String reponse = creation.andReturn().getResponse().getContentAsString();
+        Integer id = JsonPath.read(reponse, "$.id");
+
+        //when 
+        ResultActions emprunt = mockMvc.perform(post("/books/" + id + "/borrow"));
+
+        //then : le livre est emprunté
+        emprunt.andExpect(status().isOk())
+               .andExpect(jsonPath("$.status").value("EMPRUNTE"));
+    }
+
+
+    @Test
+    void modifierUnLivreEmprunteGardeSonStatut() throws Exception {
+        //given : un livre emprunté par Malak
+        Member malak = memberRepository.save(new Member("Malak-put"));
+        Book book = bookService.createBook("Les Misérables", "Victor Hugo");
+        bookService.borrowBook(book.getId(), malak.getId());
+
+        //when : on modifie seulement le titre
+        ResultActions modification = mockMvc.perform(put("/books/" + book.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\": \"Les Misérables (poche)\", \"author\": \"Victor Hugo\"}"));
+
+        //then : la modification marche et le livre est toujours EMPRUNTE
+        modification.andExpect(status().isOk());
+        Book relu = bookRepository.findById(book.getId()).orElseThrow();
+        assertEquals(Status.EMPRUNTE, relu.getStatus());
+    }
+
+    @Test
+    void supprimerUnLivreQuiNExistePasRenvoie404() throws Exception {
+        //when
+        ResultActions suppression = mockMvc.perform(delete("/books/999999"));
+
+        //then
+        suppression.andExpect(status().isNotFound());
+    }
+
+    @Test
+    void emprunterSansEtreConnecteRenvoie401() throws Exception {
+        //given 
+        Book book = bookService.createBook("Les Misérables", "Victor Hugo");
+        currentMember.setCurrent(null);
+
+        //when
+        ResultActions emprunt = mockMvc.perform(post("/books/" + book.getId() + "/borrow"));
+
+        //then 
+        emprunt.andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void creerUnLivreAvecUnTitreVideRenvoie400() throws Exception {
+        //when
+        ResultActions creation = mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\": \"\", \"author\": \"Victor Hugo\"}"));
+
+        //then
+        creation.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void creerUnLivreAvecUnAuteurVideRenvoie400() throws Exception {
+        //when
+        ResultActions creation = mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\": \"Les Misérables\", \"author\": \"\"}"));
+
+        //then
+        creation.andExpect(status().isBadRequest());
     }
 }

@@ -56,15 +56,23 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        // 404 si le livre n'existe pas
+        if (bookService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
-// borrow appelait returnBook (rendre) au lieu de borrowBook (emprunter), donc l'emprunt était refusé
+
     @PostMapping("/{id}/borrow")
     public ResponseEntity<Book> borrowBook(@PathVariable Long id) {
-        Long memberId = currentMemberService.getCurrentMemberId()
-                .orElseThrow(() -> new IllegalStateException("Member not authenticated"));
+        // 401 si personne n'est connecté
+        Long memberId = currentMemberService.getCurrentMemberId().orElse(null);
+        if (memberId == null) {
+            return ResponseEntity.status(401).build();
+        }
         try {
+            // borrowBook au lieu de returnBook
             return ResponseEntity.ok(bookService.borrowBook(id, memberId));
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(null);
@@ -73,8 +81,11 @@ public class BookController {
 
     @PostMapping("/{id}/return")
     public ResponseEntity<Book> returnBook(@PathVariable Long id) {
-        Long memberId = currentMemberService.getCurrentMemberId()
-                .orElseThrow(() -> new IllegalStateException("Member not authenticated"));
+        // 401 si personne n'est connecté
+        Long memberId = currentMemberService.getCurrentMemberId().orElse(null);
+        if (memberId == null) {
+            return ResponseEntity.status(401).build();
+        }
         try {
             return ResponseEntity.ok(bookService.returnBook(id, memberId));
         } catch (IllegalArgumentException | IllegalStateException e) {
